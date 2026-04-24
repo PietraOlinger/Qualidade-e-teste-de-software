@@ -1,0 +1,27 @@
+let index = parseInt(pm.collectionVariables.get("cepIndex"));
+let cepArray = JSON.parse(pm.collectionVariables.get("cepList"));
+let results = JSON.parse(pm.collectionVariables.get("cepResults") || "[]");
+
+// Store current response
+let responseJson = pm.response.json();
+results.push(responseJson);
+pm.collectionVariables.set("cepResults", JSON.stringify(results));
+
+index++;
+pm.collectionVariables.set("cepIndex", index);
+
+if (index < cepArray.length) {
+    // Continue to next CEP
+    postman.setNextRequest(pm.info.requestName);
+} else {
+    // All done - log results
+    console.log("=== RESULTADOS DOS 10 CEPs ===");
+    console.log(JSON.stringify(results, null, 2));
+    pm.collectionVariables.set("cepIndex", 0);
+    pm.collectionVariables.set("cepList", null);
+    
+    // Add a test to display results
+    pm.test("10 CEPs consultados com sucesso", function() {
+        pm.expect(results.length).to.equal(10);
+    });
+}

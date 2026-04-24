@@ -1,0 +1,22 @@
+Feature: Student Portal Login
+
+  As a student
+  I want to log into the student portal
+  So that I can access my academic information
+
+  Scenario: Successful login
+    Given I am on the Student Portal login page
+    When I enter a valid username
+    And I enter a valid password
+    And I click on the "Login" button
+    Then I should be redirected to the dashboard
+    And I should see the student home page
+
+Feature: Student Portal Login
+
+  Scenario: Login with invalid credentials
+    Given I am on the Student Portal login page
+    When I enter an invalid username or password
+    And I click on the "Login" button
+    Then I should see an error message
+    And I should remain on the login page
